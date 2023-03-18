@@ -1,17 +1,19 @@
-const express = require('express');
+const express = require("express");
 const {
   getContacts,
   getContactById,
   createContact,
   deleteContact,
   refurbishContact,
+  updateStatusContact,
 } = require("../../controllers/contactControllers");
 const {
   postContactValidation,
   putContactValidation,
+  patchFavoriteValidation,
 } = require("../../middlewares/validationMiddleware");
 
-const router = express.Router()
+const router = express.Router();
 
 router.get("/", getContacts);
 
@@ -23,4 +25,10 @@ router.delete("/:contactId", deleteContact);
 
 router.put("/:contactId", putContactValidation, refurbishContact);
 
-module.exports = router
+router.patch(
+  "/:contactId/favorite",
+  patchFavoriteValidation,
+  updateStatusContact
+);
+
+module.exports = router;
