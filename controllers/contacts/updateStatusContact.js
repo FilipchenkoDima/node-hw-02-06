@@ -1,4 +1,4 @@
-const Contact = require("../../db/schemas");
+const { Contact } = require("../../db/schemas");
 
 const updateStatusContact = async (req, res) => {
   try {
@@ -6,6 +6,7 @@ const updateStatusContact = async (req, res) => {
       return res.status(404).json({ message: "Missing fields" });
     }
     const { contactId } = req.params;
+    const { _id: owner } = req.user;
     const { favorite } = req.body;
 
     const newFavorite = await Contact.findByIdAndUpdate(
@@ -13,7 +14,8 @@ const updateStatusContact = async (req, res) => {
       {
         $set: { favorite },
       },
-      { returnDocument: "after" }
+      { returnDocument: "after" },
+      owner
     );
 
     res.status(200).json(newFavorite);

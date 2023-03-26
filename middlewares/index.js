@@ -1,3 +1,4 @@
+const { userRegisterValidation } = require("./userMiddleware");
 const {
   postContactValidation,
   putContactValidation,
@@ -8,4 +9,5 @@ module.exports = {
   postContactValidation,
   putContactValidation,
   patchFavoriteValidation,
+  userRegisterValidation,
 };

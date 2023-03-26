@@ -1,9 +1,11 @@
-const Contact = require("../../db/schemas");
+const { Contact } = require("../../db/schemas");
 
 const getContactById = async (req, res) => {
   try {
     const { contactId } = req.params;
-    const contact = await Contact.findById(contactId);
+    const { _id: owner } = req.user;
+
+    const contact = await Contact.findById(contactId, owner);
 
     res.status(200).json(contact);
   } catch (err) {
