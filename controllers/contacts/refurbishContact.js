@@ -1,15 +1,17 @@
-const Contact = require("../../db/schemas");
+const { Contact } = require("../../db/schemas");
 
 const refurbishContact = async (req, res) => {
   try {
     const { contactId } = req.params;
+    const { _id: owner } = req.user;
 
     const newContact = await Contact.findByIdAndUpdate(
       contactId,
       {
         $set: req.body,
       },
-      { returnDocument: "after" }
+      { returnDocument: "after" },
+      owner
     );
 
     res.status(200).json(newContact);

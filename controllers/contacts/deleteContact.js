@@ -1,10 +1,11 @@
-const Contact = require("../../db/schemas");
+const { Contact } = require("../../db/schemas");
 
 const deleteContact = async (req, res) => {
   try {
     const { contactId } = req.params;
+    const { _id: owner } = req.user;
 
-    await Contact.findByIdAndRemove(contactId);
+    await Contact.findByIdAndRemove(contactId, owner);
 
     res.status(200).json({ message: "contact deleted" });
   } catch (err) {
