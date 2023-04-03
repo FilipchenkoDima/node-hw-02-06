@@ -3,7 +3,13 @@ const { User } = require("../db/schemas");
 
 const authMiddleware = async (req, res, next) => {
   const header = req.headers.authorization || "";
-  const [, token] = header.split(" ");
+  const [type, token] = header.split(" ");
+
+  if (type !== "Bearer") {
+    return res.status(401).json({
+      message: "Not authorized",
+    });
+  }
 
   if (!token) {
     return res.status(401).json({
